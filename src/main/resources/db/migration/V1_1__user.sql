@@ -7,8 +7,10 @@ CREATE TABLE public.users
   email text,
   tel_no text
 );
+
 INSERT INTO users (user_name, password) VALUES
 ('admin', '$2a$10$NqMU9asEttojGJuo.ImjvOfVZL9A3tm2RXwmj2Npr5o0q5D6lUrrG');
+
 DROP TABLE IF EXISTS public.log;
 CREATE TABLE public.log
 (
