@@ -1,0 +1,27 @@
+<button type="button" (click)="goToDownload()" style="margin-bottom: 15px;margin-top: 15px;" class="btn btn-primary btn-lg btn-block">Go to Update/Download Page</button>
+<button type="button" (click)="goToAddUser()" style="margin-bottom: 15px;margin-top: 15px;" class="btn btn-primary btn-lg btn-block">Create</button>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">FIRST NAME</th>
+            <th scope="col">LAST NAME</th>
+            <th scope="col">COUNTRY</th>
+            <th scope="col">DATE OF BIRTH</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of lstUser; let i = index">
+            <td>{{user.id}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.country}}</td>
+            <td>{{user.dateOfBirth | date: 'yyyy-MM-dd'}}</td>
+            <td>
+                <button type="button" (click)='goToUpdateUser(user.id)' class="btn btn-info">Edit</button>
+                <button type="button" (click)='deleteUser(user.id, i)' class="btn btn-danger">Remove</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

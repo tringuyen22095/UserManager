@@ -1,0 +1,23 @@
+<div style="width:400px;margin:auto;">
+    <h2>Create User</h2>
+    <table>
+        <tr>
+            <input class="form-control" [(ngModel)]="newUser.firstName" placeholder="First name">
+        </tr>
+        <tr>
+            <input class="form-control" [(ngModel)]="newUser.lastName" placeholder="Last name">
+        </tr>
+        <tr>
+            <div class="form-group">
+                <!-- <input class="form-control" [(ngModel)]="dob" placeholder="Date of birth"> -->
+                <input class="form-control" placeholder="Date of birth" [(ngModel)]="dob" bsDatepicker [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }">
+            </div>
+        </tr>
+        <tr>
+            <input class="form-control" [(ngModel)]="newUser.country" placeholder="Country">
+        </tr>
+        <tr>
+            <button (click)="addUser()" type="button" class="btn btn-dark">{{value}}</button>
+        </tr>
+    </table>
+</div>

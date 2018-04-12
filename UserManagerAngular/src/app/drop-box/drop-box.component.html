@@ -1,0 +1,31 @@
+<h1 style="text-align: center;" width="100%">List files in Drop Box server</h1>
+<div class="row">
+    <div class="col-lg-8">
+        <input type="text" class="form-control" multiple [(ngModel)]="vm.content" />
+    </div>
+    <div class="col-lg-4">
+        <button type="button" (click)="upload()" class="btn btn-info">Upload</button>
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">File Path</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let link of lstUrl; let i = index">
+            <td>{{i}}</td>
+            <td>
+                <a target="_blank" href="https://www.dropbox.com/home/Apps/TestingDBApi030418{{link}}">
+                    {{link}}
+                </a>
+            </td>
+            <td>
+                <button type="button" (click)='download(link)' class="btn btn-info">Download</button>
+            </td>
+        </tr>
+    </tbody>
+</table>

@@ -1,0 +1,18 @@
+<div style="width: 400px; margin:auto;">
+    <h3>Sign In</h3>
+    <table>
+        <tr>
+            <input type="text" class="form-control" [(ngModel)]="vm.userName" placeholder="User name">
+        </tr>
+        <tr>
+            <input type="password" class="form-control" [(ngModel)]="vm.password" placeholder="Password">
+        </tr>
+        <tr>
+            <button (click)="SignIn()" type="button" class="btn btn-dark">Sign In</button>
+        </tr>
+        <tr>
+            <button (click)="socialSignIn('facebook')" class="btn btn-dark">Sign in with Facebook</button>
+            <button (click)="socialSignIn('google')" class="btn btn-dark">Signin in with Google</button>
+        </tr>
+    </table>
+</div>
