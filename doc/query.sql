@@ -1,3 +1,20 @@
+DROP TABLE IF EXISTS PUBLIC."common";
+CREATE TABLE PUBLIC."common"
+(
+	"id"										SERIAL PRIMARY KEY,
+	"type"										VARCHAR(64),
+	"value"										VARCHAR(64),
+	"text"										VARCHAR(128),
+	"description"								VARCHAR(256),
+	"sequence"									INT4,
+	"parent_id"									INT4,
+	"is_deleted"								BOOLEAN NOT NULL DEFAULT FALSE,
+	"create_by"									INT4,
+	"create_on"									TIMESTAMP,
+	"modify_by"									INT4,
+	"modify_on"									TIMESTAMP
+);
+
 DROP TABLE IF EXISTS PUBLIC."function";
 CREATE TABLE PUBLIC."function"
 (
@@ -31,10 +48,11 @@ CREATE TABLE PUBLIC."user"
 	"id" 										SERIAL PRIMARY KEY,
 	"user_name"									VARCHAR(64),
 	"email"										VARCHAR(128),
+	"account_no"								VARCHAR(64),
 	"first_name"								VARCHAR(32),
 	"last_name"									VARCHAR(32),
-	"address"									VARCHAR(128),
-	"phone_no"									VARCHAR(16),
+	"contact_no"								VARCHAR(16),
+	"remarks"									VARCHAR(128),
 	"status"									CHARACTER(3) NOT NULL DEFAULT 'ACT',
 	"uuid"										UUID,
 	"eoth"										UUID,
@@ -52,7 +70,7 @@ CREATE TABLE PUBLIC."user"
 	"last_declaration_on"						TIMESTAMP,
 	"last_login_on"								TIMESTAMP,
 	"failed_auth_attempts"						INT4 NOT NULL DEFAULT 0,
-	"is_locked"									BOOLEAN NOT NULL DEFAULT FALSE,
+	"is_locked"									BOOLEAN NOT NULL DEFAULT TRUE,
 	"is_deleted"								BOOLEAN NOT NULL DEFAULT FALSE,
 	"create_by"									INT4,
 	"create_on"									TIMESTAMP,
@@ -64,8 +82,8 @@ DROP TABLE IF EXISTS PUBLIC."user_role";
 CREATE TABLE PUBLIC."user_role"
 (
 	"id" 										SERIAL PRIMARY KEY,
-	"user_id"									INT4 REFERENCES PUBLIC."user"("id"),
-	"role_id"									INT4 REFERENCES PUBLIC."role"("id"),
+	"user_id"									INT4,
+	"role_id"									INT4,
 	"is_deleted"								BOOLEAN NOT NULL DEFAULT FALSE,
 	"create_by"									INT4,
 	"create_on"									TIMESTAMP,
@@ -77,8 +95,8 @@ DROP TABLE IF EXISTS PUBLIC."role_function";
 CREATE TABLE PUBLIC."role_function"
 (
 	"id"										SERIAL PRIMARY KEY,
-	"role_id"									INT4 REFERENCES PUBLIC."role"("id"),
-	"function_id"								INT4 REFERENCES PUBLIC."function"("id"),
+	"role_id"									INT4,
+	"function_id"								INT4,
 	"is_deleted"								BOOLEAN NOT NULL DEFAULT FALSE,
 	"create_by"									INT4,
 	"create_on"									TIMESTAMP,
@@ -125,9 +143,10 @@ CREATE TABLE "statement"
 	"name"										VARCHAR(64),
 	"from_date"									TIMESTAMP,
 	"to_date"									TIMESTAMP,
-	"history"									text,
-	"condition"									VARCHAR(256),
+	"history"									TEXT,
+	"code"										INT4,
 	"parent_id"									INT4,
+	"is_rounds"									BOOLEAN,
 	"is_deleted"								BOOLEAN,
 	"create_by"									INT4,
 	"create_on"									TIMESTAMP,
@@ -154,6 +173,7 @@ CREATE TABLE "calendar"
 	"r21"										INT4,
 	"r12"										INT4,
 	"r22"										INT4,
+	"win_team"									INT4 REFERENCES PUBLIC."team"("id"),
 	"is_deleted"								BOOLEAN,
 	"create_by"									INT4,
 	"create_on"									TIMESTAMP,
@@ -182,25 +202,6 @@ CREATE TABLE "join"
 	"modify_on"									TIMESTAMP
 );
 
-DROP TABLE IF EXISTS PUBLIC."score";
-CREATE TABLE "score"
-(
-	"id"										SERIAL PRIMARY KEY,
-	"calendar_id"								INT4 REFERENCES PUBLIC."calendar"("id"),
-	"team1"										INT4,
-	"team2"										INT4,
-	"team11"									INT4,
-	"team21"									INT4,
-	"team12"									INT4,
-	"team22"									INT4,
-	"win_team"									INT4 REFERENCES PUBLIC."team"("id"),
-	"is_deleted"								BOOLEAN,
-	"create_by"									INT4,
-	"create_on"									TIMESTAMP,
-	"modify_by"									INT4,
-	"modify_on"									TIMESTAMP
-);
-
 DROP TABLE IF EXISTS PUBLIC."news";
 CREATE TABLE "news"
 (
@@ -219,9 +220,14 @@ CREATE TABLE "bet"
 (
 	"id"										SERIAL PRIMARY KEY,
 	"calendar_id"								INT4 REFERENCES PUBLIC."calendar"("id"),
-	"title"										VARCHAR(256),
-	"content"									TEXT,
+	"g11"										INT4,
+	"g21"										INT4,
+	"g22"										INT4,
+	"g31"										INT4,
+	"g41"										INT4 REFERENCES PUBLIC."team"("id"),
+	"sub_question"								INT4,
 	"status"									VARCHAR(32),
+	"user_id"									INT4,
 	"is_deleted"								BOOLEAN,
 	"create_by"									INT4,
 	"create_on"									TIMESTAMP,
@@ -233,8 +239,7 @@ DROP TABLE IF EXISTS PUBLIC."prize";
 CREATE TABLE "prize"
 (
 	"id"										SERIAL PRIMARY KEY,
-	"calendar_id"								INT4 REFERENCES PUBLIC."calendar"("id"),
-	"user_id"									INT4 REFERENCES PUBLIC."user"("id"),
+	"bet_id"									INT4 REFERENCES PUBLIC."calendar"("id"),
 	"is_deleted"								BOOLEAN,
 	"create_by"									INT4,
 	"create_on"									TIMESTAMP,
